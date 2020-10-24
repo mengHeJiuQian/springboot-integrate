@@ -1,4 +1,4 @@
-package org.yl.websearch.modules.model.cs;
+package org.yl.websearch.modules.cs.model;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -17,9 +17,9 @@ public class CsArticleInfo {
     /** 是否原创 */
     private boolean original;
     /** 分类专栏 */
-    private String  category;
+    private String  tag;
     /** 文章标签 */
-    private String tagList;
+    private String label;
     /** 阅读量 */
     private int readCount;
 

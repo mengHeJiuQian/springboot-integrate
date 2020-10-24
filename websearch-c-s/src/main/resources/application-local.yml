@@ -1,0 +1,9 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: soblog-local
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/csdn_article
+
