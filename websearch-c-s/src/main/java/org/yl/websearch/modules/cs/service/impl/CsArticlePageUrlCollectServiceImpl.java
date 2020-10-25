@@ -1,13 +1,22 @@
 package org.yl.websearch.modules.cs.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 import org.yl.websearch.modules.cs.model.CsArticleInfo;
+import org.yl.websearch.modules.cs.model.CsUrlInfo;
 import org.yl.websearch.modules.cs.service.CsArticlePageUrlCollectService;
 
 /**
@@ -19,14 +28,48 @@ import org.yl.websearch.modules.cs.service.CsArticlePageUrlCollectService;
 @Service
 public class CsArticlePageUrlCollectServiceImpl implements CsArticlePageUrlCollectService {
 
+    private static Pattern urlPattern = Pattern.compile("\"https://blog.csdn.net/.*?\"");
+
+    @Autowired
+    private MongoTemplate mongoTemplate;
+
     @Override
     public void collectArticlePageUr() {
-        // 1.获取url
+        // 1.获取表最后一条数据url
+        String url = "https://blog.csdn.net/qq_34644750/article/details/82788788";
 
         // 2.从页面文本中提取包含的所有url
-        parseFromPage("");
+        List<CsUrlInfo> urlList = collectUrlFromPage(url);
+        log.info("【collectArticlePageUr提取到的url】:{}", JSON.toJSONString(urlList));
 
-        // 3.保存到mysql
+        // 3.保存到mongo
+        mongoTemplate.insertAll(urlList);
+    }
+
+    /**
+     * 从页面里正则匹配出url.
+     * @return
+     */
+    public List<CsUrlInfo> collectUrlFromPage(String url) {
+        List<CsUrlInfo> urlInfoList = null;
+        try {
+            Connection connect = Jsoup.connect(url);
+            Document document = connect.get();
+            String htmlText = document.toString();
+            Matcher matcher = urlPattern.matcher(htmlText);
+            urlInfoList = new ArrayList<>();
+            while (matcher.find()) {
+                String group = matcher.group();
+                // 去掉头尾的引号
+                String urlStr = group.substring(1, group.length() - 1);
+                String id = DigestUtils.md5Hex(urlStr);
+                CsUrlInfo urlInfo = new CsUrlInfo(id, urlStr, LocalDateTime.now());
+                urlInfoList.add(urlInfo);
+            }
+        } catch (Exception e) {
+            log.error("【获取url出现异常】：{}", e);
+        }
+        return urlInfoList;
     }
 
     /**

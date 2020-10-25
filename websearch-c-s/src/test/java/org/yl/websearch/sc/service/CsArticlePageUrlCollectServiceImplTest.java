@@ -1,24 +1,53 @@
-package org.yl.websearch;
+package org.yl.websearch.sc.service;
 
 import com.alibaba.fastjson.JSON;
+import com.google.common.collect.Lists;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import org.junit.jupiter.api.Test;
+import org.yl.websearch.common.utils.StringTool;
 import org.yl.websearch.modules.cs.model.CsArticleInfo;
+import org.yl.websearch.modules.cs.model.CsUrlInfo;
 
 /**
  * @author yang.liu
  * @createtime 2020/10/22 12:45
  * @description
  */
-public class JsonpTest {
+public class CsArticlePageUrlCollectServiceImplTest {
+
+    /**
+     * test case:
+     * 获取页面里所有的url.
+     */
+    @Test
+    public void testCollectUrlFromPage() throws IOException {
+        String url = "https://blog.csdn.net/wzsy_ll/article/details/94451796";
+        Connection connect = Jsoup.connect(url);
+        Document document = connect.get();
+        String htmlText = document.toString();
+        Pattern compile = Pattern.compile("\"https://blog.csdn.net/.*?\"");
+        Matcher matcher = compile.matcher(htmlText);
+        List<String> urlList = new ArrayList<>();
+        while (matcher.find()) {
+            String group = matcher.group();
+            urlList.add(group.substring(1, group.length() - 1));
+        }
+        System.out.println(JSON.toJSONString(urlList));
+    }
 
     /**
      * 参考 https://www.cnblogs.com/wpbing/p/11225238.html
      */
-    public static void main(String[] args) throws IOException {
+    @Test
+    public void testParseFromPage() throws IOException {
         CsArticleInfo articleInfo = new CsArticleInfo();
 
         String url = "https://blog.csdn.net/qq_39390545/article/details/109080050";

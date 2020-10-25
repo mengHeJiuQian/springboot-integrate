@@ -23,6 +23,7 @@
         <java.version>11</java.version>
         <!-- 工具类相关，按字典顺序排列 -->
         <commons-codec.version>1.15</commons-codec.version>
+        <commons-lang3.version>3.11</commons-lang3.version>
         <fastjson.version>1.2.73</fastjson.version>
         <junit.version>5.6.2</junit.version>
         <ws-api.version>2.1.1</ws-api.version>
@@ -48,22 +49,7 @@
         </dependency>
 
 
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>${guava.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.ws.rs</groupId>
-            <artifactId>javax.ws.rs-api</artifactId>
-            <version>${ws-api.version}</version>
-        </dependency>
+
         <!-- json转换操作相关 -->
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -76,11 +62,33 @@
             <version>${commons-codec.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
+            <version>${ws-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons-lang3.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
 
 
         <!-- jsoup html解析框架 -->
