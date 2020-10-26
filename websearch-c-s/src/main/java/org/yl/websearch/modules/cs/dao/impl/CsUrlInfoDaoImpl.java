@@ -28,8 +28,23 @@ public class CsUrlInfoDaoImpl implements CsUrlInfoDao {
     }
 
     @Override
-    public int insertAll(List<CsUrlInfo> urlInfoList) {
-        // todo 先通过selectById查一下，没查到再插入
-        return 0;
+    public boolean exists(String id) {
+        return selectById(id) == null ? false : true;
+    }
+
+
+    @Override
+    public void insertAll(List<CsUrlInfo> urlInfoList) {
+        for (CsUrlInfo urlInfo : urlInfoList) {
+            if (!exists(urlInfo.getId())) {
+                insertOne(urlInfo);
+            }
+        }
+    }
+
+    @Override
+    public int insertOne(CsUrlInfo urlInfo) {
+        mongoTemplate.save(urlInfo);
+        return 1;
     }
 }

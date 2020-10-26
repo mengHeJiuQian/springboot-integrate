@@ -13,8 +13,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
+import org.yl.websearch.modules.cs.dao.CsUrlInfoDao;
 import org.yl.websearch.modules.cs.model.CsArticleInfo;
 import org.yl.websearch.modules.cs.model.CsUrlInfo;
 import org.yl.websearch.modules.cs.service.CsArticlePageUrlCollectService;
@@ -31,7 +31,7 @@ public class CsArticlePageUrlCollectServiceImpl implements CsArticlePageUrlColle
     private static Pattern urlPattern = Pattern.compile("\"https://blog.csdn.net/.*?\"");
 
     @Autowired
-    private MongoTemplate mongoTemplate;
+    private CsUrlInfoDao csUrlInfoDaoImpl;
 
     @Override
     public void collectArticlePageUr() {
@@ -43,7 +43,7 @@ public class CsArticlePageUrlCollectServiceImpl implements CsArticlePageUrlColle
         log.info("【collectArticlePageUr提取到的url】:{}", JSON.toJSONString(urlList));
 
         // 3.保存到mongo
-        mongoTemplate.insertAll(urlList);
+        csUrlInfoDaoImpl.insertAll(urlList);
     }
 
     /**

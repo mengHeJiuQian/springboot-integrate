@@ -13,12 +13,25 @@ public interface CsUrlInfoDao {
     CsUrlInfo selectById(String id);
 
     /**
+     * 根据id判断数据是否存在，存在返回true,不存在返回false
+     * @param id
+     * @return
+     */
+    boolean exists(String id);
+
+    /**
      * 插入list里所有的数据.
      * @param urlInfoList url列表
      * @return
      */
-    int insertAll(List<CsUrlInfo> urlInfoList);
+    void insertAll(List<CsUrlInfo> urlInfoList);
 
+    /**
+     * 插入一条记录.
+     * @param urlInfo
+     * @return
+     */
+    int insertOne(CsUrlInfo urlInfo);
     /**
      * 查找最新的一条记录.
      */
