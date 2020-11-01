@@ -8,6 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -30,17 +31,23 @@ public class CsArticlePageUrlCollectServiceImpl implements CsArticlePageUrlColle
 
     private static Pattern urlPattern = Pattern.compile("\"https://blog.csdn.net/.*?\"");
 
+    private static String beginUrl = "https://blog.csdn.net/qq_34644750/article/details/82788788";
+
     @Autowired
     private CsUrlInfoDao csUrlInfoDaoImpl;
 
     @Override
-    public void collectArticlePageUr() {
+    public void collectArticlePageUrl() {
         // 1.获取表最后一条数据url
-        String url = "https://blog.csdn.net/qq_34644750/article/details/82788788";
+        String url = beginUrl;
+        CsUrlInfo latestUrlInfo = csUrlInfoDaoImpl.getLatest();
+        if (latestUrlInfo != null) {
+            url = latestUrlInfo.getUrl();
+        }
 
         // 2.从页面文本中提取包含的所有url
         List<CsUrlInfo> urlList = collectUrlFromPage(url);
-        log.info("【collectArticlePageUr提取到的url】:{}", JSON.toJSONString(urlList));
+        log.info("【collectArticlePageUr从url={}，提取到的url】:{}", url, JSON.toJSONString(urlList));
 
         // 3.保存到mongo
         csUrlInfoDaoImpl.insertAll(urlList);
@@ -48,6 +55,7 @@ public class CsArticlePageUrlCollectServiceImpl implements CsArticlePageUrlColle
 
     /**
      * 从页面里正则匹配出url.
+     *
      * @return
      */
     public List<CsUrlInfo> collectUrlFromPage(String url) {
@@ -67,13 +75,16 @@ public class CsArticlePageUrlCollectServiceImpl implements CsArticlePageUrlColle
                 urlInfoList.add(urlInfo);
             }
         } catch (Exception e) {
-            log.error("【获取url出现异常】：{}", e);
+            log.error("【获取url={}出现异常】：{}", url, e);
+            int count = csUrlInfoDaoImpl.deleteByUrl(url);
+            log.info("【删除url={}，影响行数={}】。", url, count);
         }
         return urlInfoList;
     }
 
     /**
      * 从url中获取文章浏览信息.
+     *
      * @param url 博客文章url https://blog.csdn.net/wzsy_ll/article/details/94451796
      * @return
      */

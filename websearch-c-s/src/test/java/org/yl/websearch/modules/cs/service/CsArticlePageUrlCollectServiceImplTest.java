@@ -1,7 +1,6 @@
-package org.yl.websearch.sc.service;
+package org.yl.websearch.modules.cs.service;
 
 import com.alibaba.fastjson.JSON;
-import com.google.common.collect.Lists;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,9 +11,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.junit.jupiter.api.Test;
-import org.yl.websearch.common.utils.StringTool;
 import org.yl.websearch.modules.cs.model.CsArticleInfo;
-import org.yl.websearch.modules.cs.model.CsUrlInfo;
 
 /**
  * @author yang.liu

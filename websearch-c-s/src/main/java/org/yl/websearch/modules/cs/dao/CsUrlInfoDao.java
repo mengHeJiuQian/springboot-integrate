@@ -32,9 +32,16 @@ public interface CsUrlInfoDao {
      * @return
      */
     int insertOne(CsUrlInfo urlInfo);
+
     /**
-     * 查找最新的一条记录.
+     * 获取Collection里最后一条记录.
+     * @return
      */
-    //CsUrlInfo select();
+    CsUrlInfo getLatest();
+
+    /**
+     * 删除url.
+     */
+    int deleteByUrl(String url);
 
 }

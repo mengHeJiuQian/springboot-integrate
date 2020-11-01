@@ -25,7 +25,7 @@
         <commons-codec.version>1.15</commons-codec.version>
         <commons-lang3.version>3.11</commons-lang3.version>
         <fastjson.version>1.2.73</fastjson.version>
-        <junit.version>5.6.2</junit.version>
+        <!--<junit.version>5.6.2</junit.version>-->
         <ws-api.version>2.1.1</ws-api.version>
         <lombok.version>1.18.12</lombok.version>
         <guava.version>29.0-jre</guava.version>
@@ -46,6 +46,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
 
 
@@ -76,12 +81,13 @@
             <artifactId>commons-lang3</artifactId>
             <version>${commons-lang3.version}</version>
         </dependency>
-        <dependency>
+        <!-- spring-boot-starter-test里包含的有junit jar包，此处不注释会引起冲突。 -->
+        <!--<dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

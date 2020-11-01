@@ -26,7 +26,7 @@ public class CsArticleBriefCollectQuartz {
     @Scheduled(cron = "*/30 * * * * ?")
     public void collectArticlePageUrl() {
         log.info("【开始执行一次collectArticlePageUrl】");
-        csArticlePageUrlCollectServiceImpl.collectArticlePageUr();
+        csArticlePageUrlCollectServiceImpl.collectArticlePageUrl();
         log.info("【结束执行一次collectArticlePageUrl】");
     }
 }

@@ -7,5 +7,5 @@ package org.yl.websearch.modules.cs.service;
  */
 public interface CsArticlePageUrlCollectService {
 
-    void collectArticlePageUr();
+    void collectArticlePageUrl();
 }
