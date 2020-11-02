@@ -72,6 +72,9 @@ public class CsArticlePageUrlCollectServiceImpl implements CsArticlePageUrlColle
                 String urlStr = group.substring(1, group.length() - 1);
                 String id = DigestUtils.md5Hex(urlStr);
                 CsUrlInfo urlInfo = new CsUrlInfo(id, urlStr, LocalDateTime.now());
+                if (!filterUselessUrl(urlInfo.getUrl())) {
+                    continue;
+                }
                 urlInfoList.add(urlInfo);
             }
         } catch (Exception e) {
@@ -141,5 +144,15 @@ public class CsArticlePageUrlCollectServiceImpl implements CsArticlePageUrlColle
             log.error("【获取url出现异常】：{}", e);
         }
         return articleInfo;
+    }
+
+    private boolean filterUselessUrl(String url) {
+        if (url.length() < "https://blog.csdn.net/xxx/article/details".length()) {
+            return false;
+        }
+        if (url.contains("article/month")) {
+            return false;
+        }
+        return true;
     }
 }
