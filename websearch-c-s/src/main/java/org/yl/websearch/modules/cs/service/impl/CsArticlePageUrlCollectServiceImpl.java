@@ -72,15 +72,17 @@ public class CsArticlePageUrlCollectServiceImpl implements CsArticlePageUrlColle
                 String urlStr = group.substring(1, group.length() - 1);
                 String id = DigestUtils.md5Hex(urlStr);
                 CsUrlInfo urlInfo = new CsUrlInfo(id, urlStr, LocalDateTime.now());
-                if (!filterUselessUrl(urlInfo.getUrl())) {
+                if (isUselessUrl(urlInfo.getUrl())) {
+                    int count = csUrlInfoDaoImpl.deleteByUrl(urlStr);
+                    log.info("【删除url={}，影响行数={}】。", urlStr, count);
                     continue;
                 }
                 urlInfoList.add(urlInfo);
             }
         } catch (Exception e) {
-            log.error("【获取url={}出现异常】：{}", url, e);
+            log.error("【异常处理，获取url={}出现异常】：{}", url, e);
             int count = csUrlInfoDaoImpl.deleteByUrl(url);
-            log.info("【删除url={}，影响行数={}】。", url, count);
+            log.error("【异常处理，删除url={}，影响行数={}】。", url, count);
         }
         return urlInfoList;
     }
@@ -146,13 +148,23 @@ public class CsArticlePageUrlCollectServiceImpl implements CsArticlePageUrlColle
         return articleInfo;
     }
 
-    private boolean filterUselessUrl(String url) {
+    private boolean isUselessUrl(String url) {
         if (url.length() < "https://blog.csdn.net/xxx/article/details".length()) {
-            return false;
+            return true;
         }
         if (url.contains("article/month")) {
-            return false;
+            return true;
         }
-        return true;
+        if (url.endsWith(".html")) {
+            return true;
+        }
+        // https://blog.csdn.net/qq_40693603/article/shareArticleCardPage?article_id=108564694
+        if (url.contains("?article_id=")) {
+            return true;
+        }
+        if (url.contains("#comments_")) {
+            return true;
+        }
+        return false;
     }
 }
