@@ -7,5 +7,8 @@ package org.yl.websearch.modules.cs.service;
  */
 public interface CsArticlePageUrlCollectService {
 
+    /**
+     * 收集页面url
+     */
     void collectArticlePageUrl();
 }

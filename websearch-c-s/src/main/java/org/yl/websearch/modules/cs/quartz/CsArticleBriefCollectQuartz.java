@@ -2,8 +2,9 @@ package org.yl.websearch.modules.cs.quartz;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 import org.yl.websearch.modules.cs.service.CsArticlePageUrlCollectService;
 
 /**
@@ -12,7 +13,8 @@ import org.yl.websearch.modules.cs.service.CsArticlePageUrlCollectService;
  * @description 简单的解析页面里所有的url进行保存
  */
 @Slf4j
-@Controller
+@Component
+@PropertySource(value = "classpath:quartz.properties")
 public class CsArticleBriefCollectQuartz {
 
     @Autowired
@@ -23,7 +25,7 @@ public class CsArticleBriefCollectQuartz {
     /**
      * 简单的提取出页面里所有的url，保存到mongo
      */
-    @Scheduled(cron = "*/30 * * * * ?")
+    @Scheduled(cron = "${quartz.CsArticleBriefCollectQuartz}")
     public void collectArticlePageUrl() {
         log.info("【开始执行一次collectArticlePageUrl】");
         csArticlePageUrlCollectServiceImpl.collectArticlePageUrl();

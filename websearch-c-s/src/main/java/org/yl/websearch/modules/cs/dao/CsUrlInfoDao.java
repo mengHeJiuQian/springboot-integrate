@@ -13,6 +13,12 @@ public interface CsUrlInfoDao {
     CsUrlInfo selectById(String id);
 
     /**
+     * 随即从数据库表中查询出一条记录.
+     * @return
+     */
+    CsUrlInfo randomSelect();
+
+    /**
      * 根据id判断数据是否存在，存在返回true,不存在返回false
      * @param id
      * @return

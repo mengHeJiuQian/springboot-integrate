@@ -32,6 +32,11 @@ public class CsUrlInfoDaoImpl implements CsUrlInfoDao {
     }
 
     @Override
+    public CsUrlInfo randomSelect() {
+        return null;
+    }
+
+    @Override
     public boolean exists(String id) {
         return selectById(id) == null ? false : true;
     }
@@ -40,7 +45,6 @@ public class CsUrlInfoDaoImpl implements CsUrlInfoDao {
     @Override
     public void insertAll(List<CsUrlInfo> urlInfoList) {
         Optional<List<CsUrlInfo>> listInOptional = Optional.ofNullable(urlInfoList);
-        System.out.println(listInOptional.isPresent());
         listInOptional.ifPresent(urlList -> urlList.stream().forEach(urlInfo -> {
             if (!exists(urlInfo.getId())) {
                 insertOne(urlInfo);
