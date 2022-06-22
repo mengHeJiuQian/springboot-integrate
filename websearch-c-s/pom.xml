@@ -31,7 +31,7 @@
         <guava.version>29.0-jre</guava.version>
         <!-- 开发用到的框架 -->
         <jsoup.version>1.13.1</jsoup.version>
-        <mongo.version>3.12.7</mongo.version>
+        <mongo.version>3.12.8</mongo.version>
     </properties>
 
     <dependencies>
