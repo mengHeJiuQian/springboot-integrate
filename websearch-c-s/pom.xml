@@ -30,7 +30,7 @@
         <lombok.version>1.18.12</lombok.version>
         <guava.version>29.0-jre</guava.version>
         <!-- 开发用到的框架 -->
-        <jsoup.version>1.13.1</jsoup.version>
+        <jsoup.version>1.15.3</jsoup.version>
         <mongo.version>3.12.7</mongo.version>
     </properties>
 
